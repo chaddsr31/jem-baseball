@@ -1,0 +1,275 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'JEM Baseball Training',
+  description =
+    'Chicagoland youth baseball organization promoting high quality instruction and baseball character development.',
+} = Astro.props;
+
+const nav = [
+  { href: '/mission', label: 'Mission' },
+  { href: '/tryouts', label: 'Tryouts' },
+  { href: '/founders', label: 'Founders' },
+  { href: '/schedule', label: 'Schedule' },
+  { href: '/photo-albums', label: 'Photo Albums' },
+  { href: '/community-service', label: 'Community Service' },
+  { href: '/donate', label: 'Donate' },
+];
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/jpeg" href={`${base}/images/jem-logo.jpg`} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main">
+        <a href={`${base}/`} class="nav-home">Home</a>
+        {
+          nav.map((item) => (
+            <a
+              href={`${base}${item.href}`}
+              aria-current={currentPath === `${base}${item.href}` ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <a href={`${base}/`} class="brand">
+        <img src={`${base}/images/jem-wordmark.png`} alt="JEM Baseball Training — Est. 2015" />
+      </a>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-heading">contact</p>
+      <a href="mailto:jembaseballtraining@gmail.com" class="footer-email"
+        >JEMBASEBALLTRAINING@GMAIL.COM</a
+      >
+      <p class="footer-heading">connect</p>
+      <div class="footer-social">
+        <a
+          href="https://instagram.com/jembaseballtraining"
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram">Instagram</a
+        >
+        <a
+          href="https://www.facebook.com/jembaseballtraining/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Facebook">Facebook</a
+        >
+      </div>
+      <form
+        class="footer-signup"
+        action="mailto:jembaseballtraining@gmail.com"
+        method="get"
+      >
+        <p class="footer-signup-title">WANT TO TRAIN LIKE A JEM?</p>
+        <input type="text" name="name" placeholder="Name" aria-label="Name" />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          aria-label="Email Address"
+        />
+        <button type="submit">SUBMIT</button>
+      </form>
+      <p class="footer-hashtag">#TRAINLIKEAJEM</p>
+      <p class="footer-copy">
+        ©{new Date().getFullYear()} JEM Baseball Training ·
+        <a href="https://www.plcca.org" target="_blank" rel="noopener">PLCCA</a>
+      </p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --jem-orange: #e8833a;
+    --jem-gold: #c9a86a;
+    --jem-ink: #2b2b2b;
+    --jem-paper: #ffffff;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+    --font-sans: 'Avenir Next', Avenir, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    color: var(--jem-ink);
+    background: var(--jem-paper);
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  a {
+    color: var(--jem-orange);
+  }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  /* Header */
+  .site-header {
+    text-align: center;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1.75rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--jem-gold);
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+  }
+
+  .site-nav a {
+    color: var(--jem-gold);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .site-nav a:hover,
+  .site-nav a[aria-current='page'] {
+    color: var(--jem-orange);
+  }
+
+  .brand img {
+    max-width: 440px;
+    width: 90%;
+    height: auto;
+    margin: 1.5rem auto 0;
+    display: block;
+  }
+
+  /* Footer */
+  .site-footer {
+    border-top: 1px solid var(--jem-gold);
+    text-align: center;
+    padding: 2rem 1rem 2.5rem;
+    font-family: var(--font-sans);
+  }
+
+  .footer-email {
+    color: var(--jem-ink);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+  }
+
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .footer-heading {
+    text-transform: lowercase;
+    letter-spacing: 0.2em;
+    color: var(--jem-gold);
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-signup {
+    margin: 1.5rem auto 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 34rem;
+  }
+
+  .footer-signup-title {
+    flex-basis: 100%;
+    letter-spacing: 0.1em;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-signup input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--jem-gold);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+  }
+
+  .footer-signup button {
+    padding: 0.5rem 1.5rem;
+    background: var(--jem-orange);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-hashtag {
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  /* Shared page styles */
+  .page-title {
+    text-align: center;
+    font-size: 2rem;
+    margin: 1.5rem 0 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .prose {
+    max-width: 42rem;
+    margin: 0 auto;
+    font-size: 1.15rem;
+  }
+
+  .prose p + p {
+    margin-top: 1rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

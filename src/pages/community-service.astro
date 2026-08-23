@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const photos = Array.from({ length: 9 }, (_, i) => `/images/community-${i + 1}.jpg`);
+---
+
+<Layout title="Community Service | JEM Baseball Training">
+  <h1 class="page-title">Community Service</h1>
+
+  <div class="gallery">
+    {
+      photos.map((src, i) => (
+        <img src={src} alt={`JEM community service photo ${i + 1}`} loading="lazy" />
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .gallery {
+    columns: 3 260px;
+    column-gap: 1rem;
+  }
+
+  .gallery img {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: block;
+  }
+</style>

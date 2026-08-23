@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const founders = [
+  {
+    letter: 'J',
+    name: 'James Nash',
+    photo: '/images/founders-photo-1.jpg',
+    credentials: [
+      '4 years of professional baseball in Germany',
+      '2 years NJCAA All-conference',
+      'Chicago White Sox Amateur City Elite Infield Instructor',
+      'Chicago White Sox Amateur City Elite Head Coach of 17u travel team',
+      '13 years of elite coaching experience',
+    ],
+  },
+  {
+    letter: 'E',
+    name: 'Earnest Horton',
+    photo: '/images/founders-photo-2.jpg',
+    credentials: [
+      'M.Ed. Educational Leadership',
+      'B.S. Health & Physical Education',
+      '4 year letterman at The University of Arkansas at Pine Bluff',
+      'Chicago White Sox Amateur City Elite Instructor',
+      '13u Chicago White Sox Amateur City Elite Head Coach',
+      '15 years of elite coaching experience',
+    ],
+  },
+  {
+    letter: 'M',
+    name: 'Marcus Rodgers',
+    photo: null,
+    credentials: [
+      'B.A. Business Finance; 4 year Letterman at The University of Arkansas at Pine Bluff',
+      'M.A. Education, Concordia University',
+      'Houston Astros Scout',
+      'Chicago White Sox Amateur City Elite Head Coach 15u Travel Team',
+      'Reviving Baseball in Inner Cities 15u Head Coach',
+      '18 years of elite coaching experience',
+      '3 Time RBI World Series Champion',
+    ],
+  },
+];
+---
+
+<Layout title="Founders | JEM Baseball Training">
+  <h1 class="page-title">Founders</h1>
+
+  <div class="founders">
+    {
+      founders.map((f) => (
+        <section class="founder">
+          <div class="founder-media">
+            {f.photo ? (
+              <img src={f.photo} alt={f.name} loading="lazy" />
+            ) : (
+              <div class="founder-letter" aria-hidden="true">
+                {f.letter}
+              </div>
+            )}
+          </div>
+          <div class="founder-info">
+            <span class="founder-initial">{f.letter}</span>
+            <h2>{f.name}</h2>
+            <ul>
+              {f.credentials.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .founders {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .founder {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .founder:nth-child(even) {
+    grid-template-columns: 1fr 240px;
+  }
+
+  .founder:nth-child(even) .founder-media {
+    order: 2;
+  }
+
+  .founder-media img {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .founder-letter {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    background: #faf5ee;
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+    font-size: 6rem;
+    color: var(--jem-orange);
+    font-weight: 700;
+  }
+
+  .founder-initial {
+    font-size: 3rem;
+    color: var(--jem-orange);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .founder-info h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 1.3rem;
+    margin: 0.25rem 0 1rem;
+  }
+
+  .founder-info ul {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 640px) {
+    .founder,
+    .founder:nth-child(even) {
+      grid-template-columns: 1fr;
+    }
+
+    .founder:nth-child(even) .founder-media {
+      order: 0;
+    }
+
+    .founder-media img,
+    .founder-letter {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }
+</style>

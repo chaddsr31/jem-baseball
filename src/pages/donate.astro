@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Donate | JEM Baseball Training">
+  <h1 class="page-title">Donate</h1>
+
+  <div class="prose donate">
+    <p class="donate-lead">
+      Thank you for your contribution to JEM Baseball Training!
+    </p>
+    <p>JEM Baseball Training is a 501(c)(3) organization.</p>
+
+    <!-- TODO: replace href with the organization's actual PayPal donate link -->
+    <a class="donate-button" href="#" aria-disabled="true">Donate with PayPal</a>
+    <p class="donate-note">
+      (Donation link coming soon — email
+      <a href="mailto:jembaseballtraining@gmail.com">jembaseballtraining@gmail.com</a>
+      to contribute.)
+    </p>
+  </div>
+
+  <section class="supporters">
+    <h2>Supporters</h2>
+    <div class="supporter-logos">
+      <a href="https://www.plcca.org" target="_blank" rel="noopener">
+        <img src={`${import.meta.env.BASE_URL}/images/donate-supporter.jpg`} alt="PLCCA" loading="lazy" />
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .donate {
+    text-align: center;
+  }
+
+  .donate-lead {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .donate-button {
+    display: inline-block;
+    margin: 1.5rem 0 0.5rem;
+    padding: 0.75rem 2.5rem;
+    background: var(--jem-orange);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .donate-note {
+    font-size: 0.9rem;
+    color: #777;
+  }
+
+  .supporters {
+    margin-top: 3.5rem;
+    text-align: center;
+  }
+
+  .supporters h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .supporter-logos img {
+    max-width: 220px;
+  }
+</style>
