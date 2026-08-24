@@ -52,43 +52,49 @@ const schedules = [
 ---
 
 <Layout title="Schedule | JEM Baseball Training">
-  <h1 class="page-title">Fall Ball 2026 Game Schedule</h1>
+  <h1 class="page-title">Schedule</h1>
 
-  <div class="schedule-location">
-    <p class="schedule-location-name">All games at {location.name}</p>
-    <p class="schedule-location-address">{location.address}</p>
-  </div>
+  <details class="season" open>
+    <summary class="season-title">Fall Ball 2026</summary>
 
-  {
-    schedules.map((group) => (
-      <section class="schedule-group">
-        <h2 class="schedule-group-title">{group.label}</h2>
-        <div class="schedule-table-wrap">
-          <table class="schedule-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Field</th>
-                <th>Opponent / Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              {group.games.map((g) => (
-                <tr class={g.off ? 'is-off' : ''}>
-                  <td>{g.date}</td>
-                  <td>{g.time}</td>
-                  <td>{g.field}</td>
-                  <td>{g.note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="schedule-tournament">{tournament}</p>
-      </section>
-    ))
-  }
+    <div class="season-body">
+      <div class="schedule-location">
+        <p class="schedule-location-name">All games at {location.name}</p>
+        <p class="schedule-location-address">{location.address}</p>
+      </div>
+
+      {
+        schedules.map((group) => (
+          <section class="schedule-group">
+            <h2 class="schedule-group-title">{group.label}</h2>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Field</th>
+                    <th>Opponent / Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {group.games.map((g) => (
+                    <tr class={g.off ? 'is-off' : ''}>
+                      <td>{g.date}</td>
+                      <td>{g.time}</td>
+                      <td>{g.field}</td>
+                      <td>{g.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="schedule-tournament">{tournament}</p>
+          </section>
+        ))
+      }
+    </div>
+  </details>
 
   <div class="prose" style="text-align: center;">
     <p>
@@ -99,6 +105,59 @@ const schedules = [
 </Layout>
 
 <style>
+  .season {
+    margin-bottom: 2rem;
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+  }
+
+  .season-title {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--jem-ink);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .season-title::-webkit-details-marker {
+    display: none;
+  }
+
+  .season-title::after {
+    content: '▾';
+    color: var(--jem-gold);
+    transition: transform 0.2s ease;
+  }
+
+  .season[open] .season-title::after {
+    transform: rotate(180deg);
+  }
+
+  .season-title:hover {
+    color: var(--jem-orange);
+  }
+
+  .season-body {
+    padding: 0 1.25rem 1.5rem;
+    border-top: 1px solid var(--jem-gold);
+  }
+
+  .season-body .schedule-location {
+    margin-top: 1.5rem;
+  }
+
+  .season-body .schedule-group:last-child {
+    margin-bottom: 0;
+  }
+
   .schedule-location {
     text-align: center;
     background: #faf5ee;
@@ -190,6 +249,15 @@ const schedules = [
   }
 
   @media (max-width: 767px) {
+    .season-title {
+      padding: 0.8rem 1rem;
+      font-size: 1.05rem;
+    }
+
+    .season-body {
+      padding: 0 0.75rem 1.25rem;
+    }
+
     .schedule-group-title {
       font-size: 1rem;
       padding: 0.55rem 0.85rem;
