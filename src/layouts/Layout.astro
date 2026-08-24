@@ -13,7 +13,15 @@ const {
 const nav = [
   { href: '/mission', label: 'Mission' },
   { href: '/tryouts', label: 'Tryouts' },
-  { href: '/teams', label: 'Teams' },
+  {
+    href: '/teams',
+    label: 'Teams',
+    children: [
+      { href: '/teams/8u', label: '8U' },
+      { href: '/teams/9u', label: '9U' },
+      { href: '/teams/11u', label: '11U' },
+    ],
+  },
   { href: '/founders', label: 'Founders' },
   { href: '/schedule', label: 'Schedule' },
   { href: '/photo-albums', label: 'Photo Albums' },
@@ -36,23 +44,83 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   </head>
   <body>
     <header class="site-header">
-      <nav class="site-nav" aria-label="Main">
+      <button
+        type="button"
+        class="nav-toggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="site-nav"
+      >
+        <span aria-hidden="true">☰</span>
+      </button>
+
+      <div class="nav-backdrop" hidden></div>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <button type="button" class="nav-close" aria-label="Close menu">
+          <span aria-hidden="true">✕</span>
+        </button>
         <a href={`${base}/`} class="nav-home">Home</a>
         {
-          nav.map((item) => (
-            <a
-              href={`${base}${item.href}`}
-              aria-current={currentPath === `${base}${item.href}` ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          ))
+          nav.map((item) =>
+            item.children ? (
+              <details class="nav-dropdown">
+                <summary
+                  aria-current={
+                    item.children.some((c) => currentPath === `${base}${c.href}`)
+                      ? 'page'
+                      : undefined
+                  }
+                >
+                  {item.label}
+                </summary>
+                <div class="nav-dropdown-menu">
+                  {item.children.map((child) => (
+                    <a
+                      href={`${base}${child.href}`}
+                      aria-current={currentPath === `${base}${child.href}` ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              </details>
+            ) : (
+              <a
+                href={`${base}${item.href}`}
+                aria-current={currentPath === `${base}${item.href}` ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            )
+          )
         }
       </nav>
       <a href={`${base}/`} class="brand">
         <img src={`${base}/images/jem-wordmark.png`} alt="JEM Baseball Training — Est. 2015" />
       </a>
     </header>
+
+    <script>
+      const toggle = document.querySelector('.nav-toggle');
+      const backdrop = document.querySelector('.nav-backdrop');
+      const closeBtn = document.querySelector('.nav-close');
+
+      const setOpen = (open) => {
+        document.body.classList.toggle('nav-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        backdrop.hidden = !open;
+        if (open) closeBtn.focus();
+        else toggle.focus();
+      };
+
+      toggle.addEventListener('click', () => setOpen(true));
+      closeBtn.addEventListener('click', () => setOpen(false));
+      backdrop.addEventListener('click', () => setOpen(false));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) setOpen(false);
+      });
+    </script>
 
     <main>
       <slot />
@@ -169,6 +237,63 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     color: var(--jem-orange);
   }
 
+  .nav-toggle,
+  .nav-close,
+  .nav-backdrop {
+    display: none;
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--jem-gold);
+    letter-spacing: 0.02em;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .nav-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-dropdown summary::after {
+    content: '▾';
+    font-size: 0.7em;
+    margin-left: 0.3em;
+  }
+
+  .nav-dropdown summary:hover,
+  .nav-dropdown summary[aria-current='page'],
+  .nav-dropdown[open] summary {
+    color: var(--jem-orange);
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 7rem;
+    background: var(--jem-paper);
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+    padding: 0.4rem 0;
+    z-index: 10;
+  }
+
+  .nav-dropdown-menu a {
+    padding: 0.4rem 1.25rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+
   .brand img {
     max-width: 440px;
     width: 90%;
@@ -272,5 +397,149 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   img {
     max-width: 100%;
     height: auto;
+  }
+
+  @media (max-width: 767px) {
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin: 0.4rem 0.4rem 0 auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--jem-gold);
+    }
+
+    .nav-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 20;
+    }
+
+    .nav-backdrop[hidden] {
+      display: none;
+    }
+
+    /* Slide-over drawer */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(78vw, 300px);
+      z-index: 30;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 0;
+      padding: 3.5rem 0 2rem;
+      background: var(--jem-paper);
+      border-bottom: none;
+      border-left: 1px solid var(--jem-gold);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+
+    body.nav-open .site-nav {
+      transform: translateX(0);
+    }
+
+    body.nav-open {
+      overflow: hidden;
+    }
+
+    .nav-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--jem-gold);
+    }
+
+    .site-nav > a,
+    .nav-dropdown summary {
+      display: flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 0 1.5rem;
+    }
+
+    .nav-dropdown-menu {
+      position: static;
+      transform: none;
+      margin-top: 0;
+      min-width: 0;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      background: #faf5ee;
+    }
+
+    .nav-dropdown-menu a {
+      text-align: left;
+      padding: 0 1.5rem 0 2.5rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--jem-gold);
+    }
+
+    .brand img {
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    main {
+      padding: 1.25rem 1.25rem 3rem;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .prose {
+      font-size: 1.05rem;
+    }
+
+    .footer-signup input,
+    .footer-signup button {
+      width: 100%;
+      min-height: 44px;
+    }
+
+    .footer-social a,
+    .footer-email {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav {
+      transition: none;
+    }
   }
 </style>
