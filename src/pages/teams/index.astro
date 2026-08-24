@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const teams = [
+  { slug: '8u', label: '8U' },
+  { slug: '9u', label: '9U' },
+  { slug: '11u', label: '11U' },
+];
+---
+
+<Layout title="Teams | JEM Baseball Training">
+  <h1 class="page-title">Teams</h1>
+  <div class="prose" style="text-align: center;">
+    <p>Meet our rosters by age group.</p>
+  </div>
+
+  <div class="team-links">
+    {
+      teams.map((t) => (
+        <a class="team-link" href={`${base}/teams/${t.slug}`}>
+          {t.label}
+        </a>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .team-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .team-link {
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    color: var(--jem-ink);
+    text-decoration: none;
+  }
+
+  .team-link:hover {
+    border-color: var(--jem-orange);
+    color: var(--jem-orange);
+  }
+</style>

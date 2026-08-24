@@ -1,11 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const base = import.meta.env.BASE_URL;
+
 const founders = [
   {
     letter: 'J',
     name: 'James Nash',
-    photo: '/images/founders-photo-1.jpg',
+    photo: `${base}/images/founders-photo-1.jpg`,
     credentials: [
       '4 years of professional baseball in Germany',
       '2 years NJCAA All-conference',
@@ -17,7 +19,7 @@ const founders = [
   {
     letter: 'E',
     name: 'Earnest Horton',
-    photo: '/images/founders-photo-2.jpg',
+    photo: `${base}/images/founders-photo-2.jpg`,
     credentials: [
       'M.Ed. Educational Leadership',
       'B.S. Health & Physical Education',
