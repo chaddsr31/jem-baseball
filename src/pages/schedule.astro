@@ -1,14 +1,204 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const location = {
+  name: 'Melas Park',
+  address: '1500 Central Rd, Mt Prospect, IL 60056',
+};
+
+const tournament = 'September 25-27th, Westfield, IN Tournament';
+
+const schedules = [
+  {
+    label: '8/9U Schedule',
+    games: [
+      { date: 'Aug 15', time: '9:00 AM', field: '#1', note: 'Top Tier MC' },
+      { date: 'Aug 22', time: '10:00 AM', field: '#1', note: 'Mt. Prospect Mavericks Black' },
+      { date: 'Aug 29', time: '10:00 AM', field: '#1', note: 'Sparks North' },
+      { date: 'Aug 29', time: '12:00 PM', field: '#1', note: 'Mt. Prospect Mavericks Black' },
+      { date: 'Sep 5', time: 'OFF', field: '-', note: 'Labor Day Weekend - Enjoy!', off: true },
+      { date: 'Sep 12', time: '4:00 PM', field: '#1', note: 'Mt. Prospect Mavericks Teal' },
+      { date: 'Sep 12', time: '6:00 PM', field: '#1', note: 'Dunham Park Bulls' },
+      { date: 'Sep 19', time: '12:00 PM', field: '#2', note: 'Top Tier MC' },
+    ],
+  },
+  {
+    label: '9/10U Schedule',
+    games: [
+      { date: 'Aug 15', time: '9:00 AM', field: '#2', note: 'Lake Zurich Cougars White' },
+      { date: 'Aug 15', time: '11:00 AM', field: '#2', note: 'Roselle Renegades' },
+      { date: 'Aug 22', time: '8:00 AM', field: '#2', note: 'Sparks North - Cruz' },
+      { date: 'Aug 22', time: '10:00 AM', field: '#2', note: 'Oz Park Tornadoes' },
+      { date: 'Aug 29', time: '8:00 AM', field: '#2', note: 'Northside Stars' },
+      { date: 'Sep 5', time: 'OFF', field: '-', note: 'Labor Day Weekend - Enjoy!', off: true },
+      { date: 'Sep 12', time: '4:00 PM', field: '#2', note: 'Elite Baseball Training' },
+      { date: 'Sep 12', time: '6:00 PM', field: '#2', note: 'Roselle Renegades' },
+    ],
+  },
+  {
+    label: '11U Schedule',
+    games: [
+      { date: 'Aug 15', time: '8:00 PM', field: '#3', note: 'Fury Baseball Gold' },
+      { date: 'Aug 22', time: '6:00 PM', field: '#3', note: 'Dunham Park Bulls Red' },
+      { date: 'Aug 22', time: '8:00 PM', field: '#3', note: 'Dunham Park Bulls White' },
+      { date: 'Aug 29', time: '10:00 AM', field: '#3', note: 'Bartlett Rebels' },
+      { date: 'Sep 5', time: 'OFF', field: '-', note: 'Labor Day Weekend - Enjoy!', off: true },
+      { date: 'Sep 12', time: '8:00 AM', field: '#3', note: 'Northwest Travelers' },
+      { date: 'Sep 19', time: '10:00 AM', field: '#3', note: 'Slammers Black' },
+      { date: 'Sep 19', time: '12:00 PM', field: '#3', note: 'Gorilla Baseball Club Black' },
+    ],
+  },
+];
 ---
 
 <Layout title="Schedule | JEM Baseball Training">
-  <h1 class="page-title">Schedule</h1>
+  <h1 class="page-title">Fall Ball 2026 Game Schedule</h1>
+
+  <div class="schedule-location">
+    <p class="schedule-location-name">All games at {location.name}</p>
+    <p class="schedule-location-address">{location.address}</p>
+  </div>
+
+  {
+    schedules.map((group) => (
+      <section class="schedule-group">
+        <h2 class="schedule-group-title">{group.label}</h2>
+        <div class="schedule-table-wrap">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Field</th>
+                <th>Opponent / Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              {group.games.map((g) => (
+                <tr class={g.off ? 'is-off' : ''}>
+                  <td>{g.date}</td>
+                  <td>{g.time}</td>
+                  <td>{g.field}</td>
+                  <td>{g.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="schedule-tournament">{tournament}</p>
+      </section>
+    ))
+  }
+
   <div class="prose" style="text-align: center;">
-    <p>The current season schedule will be posted here.</p>
     <p>
       Questions? Email
       <a href="mailto:jembaseballtraining@gmail.com">jembaseballtraining@gmail.com</a>
     </p>
   </div>
 </Layout>
+
+<style>
+  .schedule-location {
+    text-align: center;
+    background: #faf5ee;
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-sans);
+  }
+
+  .schedule-location-name {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .schedule-location-address {
+    color: #777;
+    margin-top: 0.15rem;
+  }
+
+  .schedule-group {
+    margin-bottom: 2.5rem;
+  }
+
+  .schedule-group-title {
+    background: var(--jem-ink);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.6rem 1rem;
+    border-radius: 4px 4px 0 0;
+    margin: 0;
+  }
+
+  .schedule-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--jem-gold);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+  }
+
+  .schedule-table th {
+    text-align: left;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--jem-gold);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--jem-gold);
+    white-space: nowrap;
+  }
+
+  .schedule-table td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+  }
+
+  .schedule-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .schedule-table td:last-child,
+  .schedule-table th:last-child {
+    white-space: normal;
+  }
+
+  .schedule-table tr.is-off td {
+    color: var(--jem-orange);
+    font-weight: 600;
+  }
+
+  .schedule-tournament {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    color: var(--jem-orange);
+    margin: 0.9rem 0 0;
+  }
+
+  @media (max-width: 767px) {
+    .schedule-group-title {
+      font-size: 1rem;
+      padding: 0.55rem 0.85rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>
