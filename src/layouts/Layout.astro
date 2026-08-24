@@ -174,8 +174,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   :root {
     --jem-orange: #e8833a;
     --jem-gold: #c9a86a;
-    --jem-ink: #2b2b2b;
-    --jem-paper: #ffffff;
+    --jem-bg: #000000;
+    --jem-surface: #161616;
+    --jem-border: #333333;
+    --jem-text: #f2eee4;
+    --jem-text-muted: #a39c92;
+    --jem-on-accent: #000000;
     --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
     --font-sans: 'Avenir Next', Avenir, 'Helvetica Neue', Arial, sans-serif;
   }
@@ -188,8 +192,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   body {
     font-family: var(--font-serif);
-    color: var(--jem-ink);
-    background: var(--jem-paper);
+    color: var(--jem-text);
+    background: var(--jem-bg);
     line-height: 1.6;
   }
 
@@ -281,7 +285,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     display: flex;
     flex-direction: column;
     min-width: 7rem;
-    background: var(--jem-paper);
+    background: var(--jem-surface);
     border: 1px solid var(--jem-gold);
     border-radius: 4px;
     padding: 0.4rem 0;
@@ -311,7 +315,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   .footer-email {
-    color: var(--jem-ink);
+    color: var(--jem-text);
     text-decoration: none;
     letter-spacing: 0.08em;
     font-size: 0.95rem;
@@ -350,18 +354,27 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   .footer-signup input {
     padding: 0.5rem 0.75rem;
+    background: var(--jem-surface);
+    color: var(--jem-text);
     border: 1px solid var(--jem-gold);
+    border-radius: 4px;
     font-family: var(--font-sans);
     font-size: 0.9rem;
+  }
+
+  .footer-signup input::placeholder {
+    color: var(--jem-text-muted);
   }
 
   .footer-signup button {
     padding: 0.5rem 1.5rem;
     background: var(--jem-orange);
-    color: #fff;
+    color: var(--jem-on-accent);
     border: none;
+    border-radius: 4px;
     cursor: pointer;
     font-family: var(--font-sans);
+    font-weight: 700;
     letter-spacing: 0.08em;
   }
 
@@ -373,7 +386,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   .footer-copy {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--jem-text-muted);
   }
 
   /* Shared page styles */
@@ -440,7 +453,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       justify-content: flex-start;
       gap: 0;
       padding: 3.5rem 0 2rem;
-      background: var(--jem-paper);
+      background: var(--jem-surface);
       border-bottom: none;
       border-left: 1px solid var(--jem-gold);
       overflow-y: auto;
@@ -490,7 +503,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       border: none;
       border-radius: 0;
       padding: 0;
-      background: #faf5ee;
+      background: var(--jem-bg);
     }
 
     .nav-dropdown-menu a {
