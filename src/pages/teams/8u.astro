@@ -2,12 +2,57 @@
 import Layout from '../../layouts/Layout.astro';
 
 const base = import.meta.env.BASE_URL;
+
+const roster = [
+  { number: '6', name: 'Arinze O.' },
+  { number: '14', name: 'CJ M.' },
+  { number: '10', name: 'Caliel A.' },
+  { number: '18', name: 'Caliyah A.' },
+  { number: '25', name: 'Drison B.' },
+  { number: '9', name: 'Emory P.' },
+  { number: '17', name: 'Kaden W.' },
+  { number: '11', name: 'Leonardo B.' },
+  { number: '8', name: 'Lucas C.' },
+  { number: '19', name: 'Makia W.' },
+  { number: '7', name: 'Micah W.' },
+  { number: '16', name: 'Nasir B.' },
+  { number: '32', name: 'Trey G.' },
+];
+
+const staff = ['Oscar Perez', 'Nico Berrini', 'Marcus Rodgers'];
 ---
 
-<Layout title="8U Roster | JEM Baseball Training">
-  <h1 class="page-title">8U Roster</h1>
+<Layout title="8U Team Grey Roster | JEM Baseball Training">
+  <h1 class="page-title">8U Team Grey</h1>
+  <p class="roster-season">Fall 2026</p>
+
+  {
+    /* TODO: give a player a real photo by adding `photo: `${base}/images/teams/8u/<file>.jpg``
+       to their entry above and rendering <img src={p.photo} alt={p.name} /> in place of the
+       placeholder below. */
+  }
+  <div class="roster-grid">
+    {
+      roster.map((p) => (
+        <div class="roster-card">
+          <div class="roster-card-photo">
+            <span class="roster-card-icon" aria-hidden="true">
+              📷
+            </span>
+          </div>
+          <p class="roster-card-name">{p.name}</p>
+          <p class="roster-card-number">#{p.number}</p>
+        </div>
+      ))
+    }
+  </div>
+
+  <section class="roster-staff">
+    <h2 class="roster-staff-title">Coaching Staff</h2>
+    <p>{staff.join(' · ')}</p>
+  </section>
+
   <div class="prose" style="text-align: center;">
-    <p>Roster coming soon.</p>
     <p>
       Questions? Email
       <a href="mailto:jembaseballtraining@gmail.com">jembaseballtraining@gmail.com</a>
@@ -15,3 +60,83 @@ const base = import.meta.env.BASE_URL;
     <p><a href={`${base}/teams`}>&larr; Back to Teams</a></p>
   </div>
 </Layout>
+
+<style>
+  .roster-season {
+    text-align: center;
+    font-family: var(--font-sans);
+    color: var(--jem-text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: -1.25rem 0 2rem;
+  }
+
+  .roster-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  .roster-card {
+    text-align: center;
+  }
+
+  .roster-card-photo {
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    background: var(--jem-surface);
+    border: 1px dashed var(--jem-gold);
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+
+  .roster-card-icon {
+    font-size: 1.8rem;
+    opacity: 0.6;
+  }
+
+  .roster-card-name {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+  }
+
+  .roster-card-number {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--jem-gold);
+    letter-spacing: 0.05em;
+  }
+
+  .roster-staff {
+    text-align: center;
+    font-family: var(--font-sans);
+    margin-bottom: 2.5rem;
+  }
+
+  .roster-staff-title {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--jem-gold);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 767px) {
+    .roster-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .roster-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
