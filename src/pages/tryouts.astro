@@ -1,14 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const formUrl =
+  'https://docs.google.com/forms/d/e/1FAIpQLSer_vUP0WXcXPe0IPWSQ-ZJ-82RjOkMRAN1I9A8A8ncCeYtvA/viewform';
 ---
 
 <Layout title="Tryouts | JEM Baseball Training">
   <h1 class="page-title">Tryouts</h1>
   <div class="prose" style="text-align: center;">
-    <p>Information coming soon…</p>
+    <p>Interested in trying out? Fill out the form below to get started.</p>
+  </div>
+
+  <div class="tryout-form-wrap">
+    <iframe
+      class="tryout-form"
+      src={`${formUrl}?embedded=true`}
+      title="JEM Baseball Tryouts Form"
+      loading="lazy"
+    >
+      Loading…
+    </iframe>
+  </div>
+
+  <div class="prose" style="text-align: center;">
+    <p>
+      Form not loading?
+      <a href={formUrl} target="_blank" rel="noopener">Open the tryout form in a new tab</a>.
+    </p>
     <p>
       Questions? Email
-      <a href="mailto:jembaseballtraining@gmail.com">jembaseballtraining@gmail.com</a>
+      <a href="mailto:JEMbaseballtraining@gmail.com">JEMbaseballtraining@gmail.com</a>
     </p>
   </div>
 </Layout>
+
+<style>
+  .tryout-form-wrap {
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+    border: 1px solid var(--jem-gold);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--jem-surface);
+  }
+
+  .tryout-form {
+    display: block;
+    width: 100%;
+    height: 1400px;
+    border: none;
+  }
+
+  @media (max-width: 640px) {
+    .tryout-form {
+      height: 1600px;
+    }
+  }
+</style>
