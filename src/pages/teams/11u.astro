@@ -29,38 +29,25 @@ const staff = ['Kyell Alexander', 'Nico Berrini', 'Jennifer Hoover', 'Tina Jones
   <h1 class="page-title">11U Roster</h1>
   <p class="roster-season">Fall 2026</p>
 
-  <div class="roster-layout">
-    <div class="roster-photo">
-      {
-        /* TODO: replace with the real team photo, e.g.
-           <img src={`${base}/images/teams/11u-team.jpg`} alt="11U Team Photo" /> */
-      }
-      <div class="roster-photo-placeholder">
-        <span class="roster-photo-icon" aria-hidden="true">📷</span>
-        <p>Team photo coming soon</p>
-      </div>
-    </div>
-
-    <div class="roster-table-wrap">
-      <table class="roster-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Player</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            roster.map((p) => (
-              <tr>
-                <td>{p.number}</td>
-                <td>{p.name}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+  {
+    /* TODO: give a player a real photo by adding `photo: `${base}/images/teams/11u/<file>.jpg``
+       to their entry above and rendering <img src={p.photo} alt={p.name} /> in place of the
+       placeholder below. */
+  }
+  <div class="roster-grid">
+    {
+      roster.map((p) => (
+        <div class="roster-card">
+          <div class="roster-card-photo">
+            <span class="roster-card-icon" aria-hidden="true">
+              📷
+            </span>
+          </div>
+          <p class="roster-card-name">{p.name}</p>
+          <p class="roster-card-number">#{p.number}</p>
+        </div>
+      ))
+    }
   </div>
 
   <section class="roster-staff">
@@ -88,74 +75,45 @@ const staff = ['Kyell Alexander', 'Nico Berrini', 'Jennifer Hoover', 'Tina Jones
     margin: -1.25rem 0 2rem;
   }
 
-  .roster-layout {
+  .roster-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 2rem;
-    align-items: start;
-    max-width: 42rem;
-    margin: 0 auto 2.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+    margin-bottom: 3rem;
   }
 
-  .roster-photo-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    aspect-ratio: 4 / 3;
+  .roster-card {
+    text-align: center;
+  }
+
+  .roster-card-photo {
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
     background: var(--jem-surface);
     border: 1px dashed var(--jem-gold);
     border-radius: 4px;
-    color: var(--jem-text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .roster-card-icon {
+    font-size: 1.8rem;
+    opacity: 0.6;
+  }
+
+  .roster-card-name {
     font-family: var(--font-sans);
-    font-size: 0.85rem;
-    letter-spacing: 0.03em;
-    text-align: center;
-    padding: 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
   }
 
-  .roster-photo-icon {
-    font-size: 2.25rem;
-    opacity: 0.7;
-  }
-
-  .roster-table-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--jem-gold);
-    border-radius: 4px;
-  }
-
-  .roster-table {
-    width: 100%;
-    border-collapse: collapse;
+  .roster-card-number {
     font-family: var(--font-sans);
-    font-size: 0.95rem;
-  }
-
-  .roster-table th {
-    text-align: left;
-    padding: 0.55rem 1rem;
-    background: var(--jem-gold);
-    color: var(--jem-on-accent);
-    text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-  }
-
-  .roster-table th:first-child,
-  .roster-table td:first-child {
-    width: 3.5rem;
-    text-align: center;
-  }
-
-  .roster-table td {
-    padding: 0.55rem 1rem;
-    border-bottom: 1px solid var(--jem-border);
-  }
-
-  .roster-table tr:last-child td {
-    border-bottom: none;
+    font-size: 0.8rem;
+    color: var(--jem-gold);
+    letter-spacing: 0.05em;
   }
 
   .roster-staff {
@@ -172,10 +130,16 @@ const staff = ['Kyell Alexander', 'Nico Berrini', 'Jennifer Hoover', 'Tina Jones
     margin-bottom: 0.5rem;
   }
 
-  @media (max-width: 640px) {
-    .roster-layout {
-      grid-template-columns: 1fr;
-      max-width: 24rem;
+  @media (max-width: 767px) {
+    .roster-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .roster-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
